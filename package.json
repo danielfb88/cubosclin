@@ -2,8 +2,9 @@
   "name": "cubosclin",
   "version": "1.0.0",
   "description": "Gerenciamento de horários da CubosClin",
-  "main": "server.ts",
+  "main": "server/server.ts",
   "scripts": {
+    "start": "./node_modules/.bin/ts-node ./server/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
