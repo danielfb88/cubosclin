@@ -3,8 +3,70 @@ import * as HTTPStatus from 'http-status';
 
 describe('Testes de integração', () => {
 
+    'use strict';
+    const config = require('../../server/config/env/config')();
+
+    let id;
+
+    const regraHorarioDateTest = {
+        id: 1,
+        kind: {
+            date: '25-11-2018',
+            weekly: [],
+            daily: false
+        },
+        intervals: [
+            {
+                start: "10:40",
+                end: "11:00"
+            },
+            {
+                start: "11:20",
+                end: "12:00"
+            },
+        ]
+    }
+
+    const regraHorarioWeeklyTest = {
+        id: 2,
+        kind: {
+            date: null,
+            weekly: ['mon', 'thu', 'sat'],
+            daily: false
+        },
+        intervals: [
+            {
+                start: "13:00",
+                end: "13:30"
+            },
+            {
+                start: "14:00",
+                end: "14:30"
+            },
+        ]
+    }
+
+    const regraHorarioDailyTest = {
+        id: 3,
+        kind: {
+            date: null,
+            weekly: [],
+            daily: true
+        },
+        intervals: [
+            {
+                start: "20:00",
+                end: "21:00"
+            },
+            {
+                start: "22:00",
+                end: "22:30"
+            },
+        ]
+    }
+
     describe('GET /api/regrahorario/all', () => {
-        it('Deve retornar um json com todos os OBJETOS', done => {
+        it('Deve retornar um json com todos os objetos regraHorario', done => {
 
             request(app)
                 .get('/api/regrahorario/all')
@@ -17,7 +79,7 @@ describe('Testes de integração', () => {
     });
 
     describe('GET /api/regrahorario/:id', () => {
-        it('Deve retornar um json com um OBJETO', done => {
+        it('Deve retornar um json com um objeto regraHorario', done => {
 
             request(app)
                 .get(`/api/regrahorario/${1}`)
@@ -30,7 +92,7 @@ describe('Testes de integração', () => {
     });
 
     describe('POST /api/regrahorario/create', () => {
-        it('Deve criar um OBJETO', done => {
+        it('Deve criar um objeto regraHorario', done => {
 
             const obj = {
                 nome: 'Teste'
@@ -47,7 +109,7 @@ describe('Testes de integração', () => {
     });
 
     describe('PUT /api/regrahorario/:id/update', () => {
-        it('Deve editar um OBJETO', done => {
+        it('Deve editar um objeto regraHorario', done => {
 
             const obj = {
                 nome: 'TesteUpdate'
@@ -64,7 +126,7 @@ describe('Testes de integração', () => {
     });
 
     describe('DELETE /api/regrahorario/:id/delete', () => {
-        it('Deve deletar um OBJETO', done => {
+        it('Deve deletar um objeto regraHorario', done => {
 
             request(app)
                 .delete(`/api/regrahorario/${1}/delete`)
