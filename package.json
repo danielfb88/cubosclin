@@ -4,9 +4,9 @@
   "description": "Gerenciamento de horários da CubosClin",
   "main": "server/server.ts",
   "scripts": {
-    "builded": "tsc -p . && NODE_ENV=development node ./build/server/server.js",
-    "unit-test": "NODE_ENV=test mocha --opts build/tests/unit/config/mocha.opts ./build/tests/unit/unit.test.js",
-    "integration-test": "NODE_ENV=test mocha --opts build/tests/integration/config/mocha.opts ./build/tests/integration/integration.test.js",
+    "builded": "NODE_ENV=development node ./dist/server/server.js",
+    "unit-test": "NODE_ENV=test mocha --opts dist/tests/unit/config/mocha.opts ./build/tests/unit/unit.test.js",
+    "integration-test": "NODE_ENV=test mocha --opts dist/tests/integration/config/mocha.opts ./build/tests/integration/integration.test.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -33,6 +33,9 @@
     "@types/morgan": "^1.7.35",
     "@types/supertest": "^2.0.7",
     "chai": "^4.2.0",
+    "gulp": "^4.0.0",
+    "gulp-clean": "^0.4.0",
+    "gulp-typescript": "^5.0.0",
     "mocha": "^6.0.0",
     "supertest": "^3.4.2",
     "testdouble": "^3.10.0",
