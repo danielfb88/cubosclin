@@ -53,7 +53,7 @@ describe('Testes de integração', () => {
                 nome: 'TesteUpdate'
             }
             request(app)
-                .post(`/api/regrahorario/${1}/update`)
+                .put(`/api/regrahorario/${1}/update`)
                 .send(obj)
                 .end((error, res) => {
                     expect(res.status).to.equals(HTTPStatus.OK);
