@@ -8,9 +8,9 @@ describe('Testes de integração', () => {
 
     let id;
 
-    const regraHorarioDateTest = {
+    const regraHorario1 = {
         id: 1,
-        kind: {
+        type: {
             date: '25-11-2018',
             weekly: [],
             daily: false
@@ -27,9 +27,9 @@ describe('Testes de integração', () => {
         ]
     }
 
-    const regraHorarioWeeklyTest = {
+    const regraHorario2 = {
         id: 2,
-        kind: {
+        type: {
             date: null,
             weekly: ['mon', 'thu', 'sat'],
             daily: false
@@ -46,9 +46,9 @@ describe('Testes de integração', () => {
         ]
     }
 
-    const regraHorarioDailyTest = {
+    const regraHorario3 = {
         id: 3,
-        kind: {
+        type: {
             date: null,
             weekly: [],
             daily: true
@@ -65,13 +65,21 @@ describe('Testes de integração', () => {
         ]
     }
 
+    beforeEach((done) => {
+        // 1 - remova todos os registros da base
+
+        // 2 - use o serviço responsável para inserir os registros na base de dados em arquivo e chame o done() para finalizar o beforeEach
+    })
+
     describe('GET /api/regrahorario/all', () => {
-        it('Deve retornar um json com todos os objetos regraHorario', done => {
+        it('Deve retornar um array com todos os objetos regraHorario', done => {
 
             request(app)
                 .get('/api/regrahorario/all')
                 .end((error, res) => {
-                    expect(res.status).to.equals(HTTPStatus.OK);
+                    expect(res.status).to.equal(HTTPStatus.OK);
+                    expect(res.body.payload).to.be.an('array');
+                    expect(res.body.payload[0].id).to.be.equal(regraHorario1.id);
                     done(error);
                 })
 
@@ -79,14 +87,18 @@ describe('Testes de integração', () => {
     });
 
     describe('GET /api/regrahorario/:id', () => {
-        it('Deve retornar um json com um objeto regraHorario', done => {
+        it('Deve retornar um array com apenas um objeto regraHorario', done => {
 
             request(app)
-                .get(`/api/regrahorario/${1}`)
+                .get(`/api/regrahorario/${regraHorario1.id}`)
                 .end((error, res) => {
-                    expect(res.status).to.equals(HTTPStatus.OK);
+                    expect(res.status).to.equal(HTTPStatus.OK);
+                    expect(res.body.payload.id).to.equal(regraHorario1.id);
+                    expect(res.body.payload).to.have.all.keys(['id', 'type', 'intervals']);
+
+                    id = res.body.payload.id;
                     done(error);
-                })
+                });
 
         });
     });
@@ -94,14 +106,27 @@ describe('Testes de integração', () => {
     describe('POST /api/regrahorario/create', () => {
         it('Deve criar um objeto regraHorario', done => {
 
-            const obj = {
-                nome: 'Teste'
+            const regraHorarioTeste = {
+                id: 4,
+                type: {
+                    date: null,
+                    weekly: [],
+                    daily: true
+                },
+                intervals: [
+                    {
+                        start: "23:00",
+                        end: "23:30"
+                    }
+                ]
             }
+
             request(app)
                 .post('/api/regrahorario/create')
-                .send(obj)
+                .send(regraHorarioTeste)
                 .end((error, res) => {
-                    expect(res.status).to.equals(HTTPStatus.OK);
+                    expect(res.status).to.equal(HTTPStatus.OK);
+                    expect(res.body.payload.id).to.eql(regraHorarioTeste.id);
                     done(error);
                 })
 
@@ -111,14 +136,30 @@ describe('Testes de integração', () => {
     describe('PUT /api/regrahorario/:id/update', () => {
         it('Deve editar um objeto regraHorario', done => {
 
-            const obj = {
-                nome: 'TesteUpdate'
+            const regraHorario1_updated = {
+                id: 1,
+                type: {
+                    date: null,
+                    weekly: [],
+                    daily: true
+                },
+                intervals: [
+                    {
+                        start: "10:40",
+                        end: "11:00"
+                    },
+                    {
+                        start: "11:20",
+                        end: "12:00"
+                    },
+                ]
             }
             request(app)
-                .put(`/api/regrahorario/${1}/update`)
-                .send(obj)
+                .put(`/api/regrahorario/${regraHorario1.id}/update`)
+                .send(regraHorario1_updated)
                 .end((error, res) => {
-                    expect(res.status).to.equals(HTTPStatus.OK);
+                    expect(res.status).to.equal(HTTPStatus.OK);
+                    expect(res.body.payload.id).to.equal(regraHorario1_updated.id);
                     done(error);
                 })
 
@@ -129,9 +170,9 @@ describe('Testes de integração', () => {
         it('Deve deletar um objeto regraHorario', done => {
 
             request(app)
-                .delete(`/api/regrahorario/${1}/delete`)
+                .delete(`/api/regrahorario/${regraHorario1.id}/delete`)
                 .end((error, res) => {
-                    expect(res.status).to.equals(HTTPStatus.OK);
+                    expect(res.status).to.equal(HTTPStatus.OK);
                     done(error);
                 })
 
