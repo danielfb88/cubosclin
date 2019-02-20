@@ -1,4 +1,5 @@
 import { app, request, expect } from './config/helpers';
+import * as HTTPStatus from 'http-status';
 
 describe('Testes de integração', () => {
 
@@ -8,7 +9,7 @@ describe('Testes de integração', () => {
             request(app)
                 .get('/api/regrahorario/all')
                 .end((error, res) => {
-                    expect(res.status).to.equals(200);
+                    expect(res.status).to.equals(HTTPStatus.OK);
                     done(error);
                 })
 
@@ -21,7 +22,7 @@ describe('Testes de integração', () => {
             request(app)
                 .get(`/api/regrahorario/${1}`)
                 .end((error, res) => {
-                    expect(res.status).to.equals(200);
+                    expect(res.status).to.equals(HTTPStatus.OK);
                     done(error);
                 })
 
@@ -38,7 +39,7 @@ describe('Testes de integração', () => {
                 .post('/api/regrahorario/create')
                 .send(obj)
                 .end((error, res) => {
-                    expect(res.status).to.equals(200);
+                    expect(res.status).to.equals(HTTPStatus.OK);
                     done(error);
                 })
 
@@ -55,7 +56,7 @@ describe('Testes de integração', () => {
                 .post(`/api/regrahorario/${1}/update`)
                 .send(obj)
                 .end((error, res) => {
-                    expect(res.status).to.equals(200);
+                    expect(res.status).to.equals(HTTPStatus.OK);
                     done(error);
                 })
 
@@ -68,7 +69,7 @@ describe('Testes de integração', () => {
             request(app)
                 .delete(`/api/regrahorario/${1}/delete`)
                 .end((error, res) => {
-                    expect(res.status).to.equals(200);
+                    expect(res.status).to.equals(HTTPStatus.OK);
                     done(error);
                 })
 
