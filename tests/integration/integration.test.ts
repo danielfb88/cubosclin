@@ -69,6 +69,8 @@ describe('Testes de integração', () => {
         // 1 - remova todos os registros da base
 
         // 2 - use o serviço responsável para inserir os registros na base de dados em arquivo e chame o done() para finalizar o beforeEach
+
+        done();
     })
 
     describe('GET /api/regrahorario/all', () => {
@@ -78,8 +80,8 @@ describe('Testes de integração', () => {
                 .get('/api/regrahorario/all')
                 .end((error, res) => {
                     expect(res.status).to.equal(HTTPStatus.OK);
-                    expect(res.body.payload).to.be.an('array');
-                    expect(res.body.payload[0].id).to.be.equal(regraHorario1.id);
+                    expect(res.body.data).to.be.an('array');
+                    expect(res.body.data[0].id).to.be.equal(regraHorario1.id);
                     done(error);
                 })
 
@@ -93,10 +95,10 @@ describe('Testes de integração', () => {
                 .get(`/api/regrahorario/${regraHorario1.id}`)
                 .end((error, res) => {
                     expect(res.status).to.equal(HTTPStatus.OK);
-                    expect(res.body.payload.id).to.equal(regraHorario1.id);
-                    expect(res.body.payload).to.have.all.keys(['id', 'type', 'intervals']);
+                    expect(res.body.data.id).to.equal(regraHorario1.id);
+                    expect(res.body.data).to.have.all.keys(['id', 'type', 'intervals']);
 
-                    id = res.body.payload.id;
+                    id = res.body.data.id;
                     done(error);
                 });
 
@@ -126,7 +128,7 @@ describe('Testes de integração', () => {
                 .send(regraHorarioTeste)
                 .end((error, res) => {
                     expect(res.status).to.equal(HTTPStatus.OK);
-                    expect(res.body.payload.id).to.eql(regraHorarioTeste.id);
+                    expect(res.body.data.id).to.eql(regraHorarioTeste.id);
                     done(error);
                 })
 
@@ -159,7 +161,7 @@ describe('Testes de integração', () => {
                 .send(regraHorario1_updated)
                 .end((error, res) => {
                     expect(res.status).to.equal(HTTPStatus.OK);
-                    expect(res.body.payload.id).to.equal(regraHorario1_updated.id);
+                    expect(res.body.data.id).to.equal(regraHorario1_updated.id);
                     done(error);
                 })
 
