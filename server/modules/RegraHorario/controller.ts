@@ -1,6 +1,9 @@
 import { Request, Response } from 'express';
 import * as HTTPStatus from 'http-status';
+import * as _ from 'lodash';
 import RegraHorario from './service';
+import { onSuccess } from '../../api/responses/successHandler';
+import { onError } from '../../api/responses/errorHandler';
 
 class RegraHorarioController {
     private RegraHorarioService: RegraHorario;
@@ -11,35 +14,23 @@ class RegraHorarioController {
     getAll(req: Request, res: Response) {
         this.RegraHorarioService
             .getAll()
-            .then(data => {
-                res.status(HTTPStatus.OK).json({ payload: data })
-            })
-            .catch(err => {
-                res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ payload: 'Erro ao buscar todas as Regras de Horário' })
-            })
+            .then(_.partial(onSuccess, res))
+            .catch(_.partial(onError, res, 'Erro ao buscar todas as Regras de Horario.'))
     }
 
     getById(req: Request, res: Response) {
         const regraHorarioId = parseInt(req.params.id);
 
         this.RegraHorarioService.getById(regraHorarioId)
-            .then(data => {
-                res.status(HTTPStatus.OK).json({ payload: data });
-            })
-            .catch(err => {
-                res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ payload: 'Erro ao buscar a Regra de Horário' })
-            })
+            .then(_.partial(onSuccess, res))
+            .catch(_.partial(onError, res, 'Regra de Horario não encontrada.'))
     }
 
     create(req: Request, res: Response) {
         this.RegraHorarioService
             .create(req.body)
-            .then(data => {
-                res.status(HTTPStatus.OK).json({ payload: data });
-            })
-            .catch(err => {
-                res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ payload: 'Erro ao cadastrar nova Regra de Horário' })
-            })
+            .then(_.partial(onSuccess, res))
+            .catch(_.partial(onError, res, 'Erro ao inserir nova Regra de Horario.'))
     }
 
     update(req: Request, res: Response) {
@@ -47,28 +38,16 @@ class RegraHorarioController {
         const props = req.body;
 
         this.RegraHorarioService.update(regraHorarioId, props)
-            .then(data => {
-                res.status(HTTPStatus.OK).json({
-                    payload: data
-                });
-            })
-            .catch(err => {
-                res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ payload: 'Erro ao atualizar Regra de Horário' })
-            })
+            .then(_.partial(onSuccess, res))
+            .catch(_.partial(onError, res, 'Falha ao atualizar Regra de Horario.'))
     }
 
     delete(req: Request, res: Response) {
         const regraHorarioId = parseInt(req.params.id);
 
         this.RegraHorarioService.delete(regraHorarioId)
-            .then(data => {
-                res.status(HTTPStatus.OK).json({
-                    payload: data
-                });
-            })
-            .catch(err => {
-                res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ payload: 'Erro ao deletar Regra de Horário' })
-            })
+            .then(_.partial(onSuccess, res))
+            .catch(_.partial(onError, res, 'Erro ao deletar Regra de Horario.'))
     }
 }
 
