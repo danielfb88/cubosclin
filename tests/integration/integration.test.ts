@@ -74,8 +74,8 @@ describe('Testes de integração', () => {
                 .get('/api/regrahorario/all')
                 .end((error, res) => {
                     expect(res.status).to.equal(HTTPStatus.OK);
-                    expect(res.body.data).to.be.an('array');
-                    expect(res.body.data[0].id).to.be.equal(regraHorario1.id);
+                    expect(res.body.payload).to.be.an('array');
+                    expect(res.body.payload[0].id).to.be.equal(regraHorario1.id);
                     done(error);
                 })
 
@@ -89,10 +89,10 @@ describe('Testes de integração', () => {
                 .get(`/api/regrahorario/${regraHorario1.id}`)
                 .end((error, res) => {
                     expect(res.status).to.equal(HTTPStatus.OK);
-                    expect(res.body.data.id).to.equal(regraHorario1.id);
-                    expect(res.body.data).to.have.all.keys(['id', 'date', 'weekly', 'daily', 'intervals']);
+                    expect(res.body.payload.id).to.equal(regraHorario1.id);
+                    expect(res.body.payload).to.have.all.keys(['id', 'date', 'weekly', 'daily', 'intervals']);
 
-                    id = res.body.data.id;
+                    id = res.body.payload.id;
                     done(error);
                 });
 
@@ -120,7 +120,7 @@ describe('Testes de integração', () => {
                 .send(regraHorarioTeste)
                 .end((error, res) => {
                     expect(res.status).to.equal(HTTPStatus.OK);
-                    expect(res.body.data.id).to.eql(regraHorarioTeste.id);
+                    expect(res.body.payload.id).to.eql(regraHorarioTeste.id);
                     done(error);
                 })
 
@@ -151,7 +151,7 @@ describe('Testes de integração', () => {
                 .send(regraHorario1_updated)
                 .end((error, res) => {
                     expect(res.status).to.equal(HTTPStatus.OK);
-                    expect(res.body.data.id).to.equal(regraHorario1_updated.id);
+                    expect(res.body.payload.id).to.equal(regraHorario1_updated.id);
                     done(error);
                 })
 

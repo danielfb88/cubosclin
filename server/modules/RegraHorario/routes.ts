@@ -3,17 +3,17 @@ import RegraHorarioController from './controller';
 let regraHorarioCtrl;
 
 class RegraHorarioRoutes {
-    
+
     constructor() {
         regraHorarioCtrl = new RegraHorarioController();
     }
 
-    findAll(req: Request, res: Response) {
-        return regraHorarioCtrl.findAll(req, res);
+    getAll(req: Request, res: Response) {
+        return regraHorarioCtrl.getAll(req, res);
     }
 
-    findOne(req: Request, res: Response) {
-        return regraHorarioCtrl.findOne(req, res);
+    getOne(req: Request, res: Response) {
+        return regraHorarioCtrl.getOne(req, res);
     }
 
     create(req: Request, res: Response) {
