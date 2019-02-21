@@ -22,7 +22,7 @@ class Api {
     }
 
     private router(app: Application): void {
-        new Routes(app);
+        Routes.initRoutes(app);
     }
 }
 

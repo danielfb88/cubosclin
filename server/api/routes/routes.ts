@@ -5,12 +5,11 @@ class Routes {
 
     private router: RegraHorarioRoutes;
 
-    constructor(app: Application) {
+    constructor() {
         this.router = new RegraHorarioRoutes();
-        this.getRoutes(app);
     }
 
-    getRoutes(app: Application): void {
+    initRoutes(app: Application): void {
         app.route('/api/regrahorario/all').get(this.router.getAll);
         app.route('/api/regrahorario/:id').get(this.router.getOne);
         app.route('/api/regrahorario/create').post(this.router.create);
@@ -19,4 +18,4 @@ class Routes {
     }
 }
 
-export default Routes;
+export default new Routes();
