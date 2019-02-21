@@ -11,7 +11,7 @@ class RegraHorario implements IRegraHorario {
     constructor() { }
 
     create(regraHorario: any) {
-        // criar outra classe com abstração para trabalhar com dados em arquivos e usar aqui
+        // criar outra classe com abstração para trabalhar com dados em arquivos e usar aqui (faça com que venha promises)
         return regraHorario;
     }
 
@@ -20,7 +20,7 @@ class RegraHorario implements IRegraHorario {
         return null;
     }
 
-    getById(): Bluebird<IRegraHorario> {
+    getById(id: number): Bluebird<IRegraHorario> {
         // criar outra classe com abstração para trabalhar com dados em arquivos e usar aqui
         return null;
     }
@@ -32,6 +32,7 @@ class RegraHorario implements IRegraHorario {
 
     delete(id: number) {
         // criar outra classe com abstração para trabalhar com dados em arquivos e usar aqui
+        return null;
     }
 }
 
