@@ -1,5 +1,5 @@
 import { testdouble, expect } from './config/helpers';
-import RegraHorario from '../../server/modules/RegraHorario/service';
+import RegraHorarioService from '../../server/modules/RegraHorario/service';
 
 describe('Testes Unitários do Service', () => {
 
@@ -13,7 +13,7 @@ describe('Testes Unitários do Service', () => {
                 intervals: [{ start: '10:20', end: '11:40' }]
             }
 
-            return new RegraHorario().create(novaRegraHorario)
+            return RegraHorarioService.create(novaRegraHorario)
                 .then(data => {
                     expect(data.dataValues).to.have.all.keys(
                         ['id', 'date', 'weekly', 'daily', 'intervals']
@@ -31,7 +31,7 @@ describe('Testes Unitários do Service', () => {
                 intervals: [{ start: '10:20', end: '11:40' }]
             }
 
-            return new RegraHorario().update(1, regraHorarioAtualizada)
+            return RegraHorarioService.update(1, regraHorarioAtualizada)
                 .then(data => {
                     expect(data[0]).to.be.equal(1)
                 })
@@ -40,7 +40,7 @@ describe('Testes Unitários do Service', () => {
 
     describe('Método getById', () => {
         it('Deve retornar um Regra de Horário de acordo com o ID passado', () => {
-            return new RegraHorario().getById(1)
+            return RegraHorarioService.getById(1)
                 .then(data => {
                     expect(data[0]).to.be.equal(1)
                 })
@@ -49,7 +49,7 @@ describe('Testes Unitários do Service', () => {
 
     describe('Método Get Regras de Horários', () => {
         it('Deve retornar uma lista com todas as Regras de Horários', () => {
-            return new RegraHorario().getAll().then(data => {
+            return RegraHorarioService.getAll().then(data => {
                 expect(data).to.be.an('array');
                 expect(data[0]).to.have.all.keys(
                     ['id', 'date', 'weekly', 'daily', 'intervals']
@@ -60,7 +60,7 @@ describe('Testes Unitários do Service', () => {
 
     describe('Método Delete', () => {
         it('Deve deletar uma Regra de Horário', () => {
-            return new RegraHorario().delete(1)
+            return RegraHorarioService.delete(1)
                 .then(data => {
                     expect(data).to.be.equal(1) // retorna a qtd de registro afetado
                 })
