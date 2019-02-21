@@ -10,11 +10,9 @@ describe('Testes de integração', () => {
 
     const regraHorario1 = {
         id: 1,
-        type: {
-            date: '25-11-2018',
-            weekly: [],
-            daily: false
-        },
+        date: '25-11-2018',
+        weekly: [],
+        daily: false,
         intervals: [
             {
                 start: "10:40",
@@ -29,11 +27,9 @@ describe('Testes de integração', () => {
 
     const regraHorario2 = {
         id: 2,
-        type: {
-            date: null,
-            weekly: ['mon', 'thu', 'sat'],
-            daily: false
-        },
+        date: null,
+        weekly: ['mon', 'thu', 'sat'],
+        daily: false,
         intervals: [
             {
                 start: "13:00",
@@ -48,11 +44,9 @@ describe('Testes de integração', () => {
 
     const regraHorario3 = {
         id: 3,
-        type: {
-            date: null,
-            weekly: [],
-            daily: true
-        },
+        date: null,
+        weekly: [],
+        daily: true,
         intervals: [
             {
                 start: "20:00",
@@ -96,7 +90,7 @@ describe('Testes de integração', () => {
                 .end((error, res) => {
                     expect(res.status).to.equal(HTTPStatus.OK);
                     expect(res.body.data.id).to.equal(regraHorario1.id);
-                    expect(res.body.data).to.have.all.keys(['id', 'type', 'intervals']);
+                    expect(res.body.data).to.have.all.keys(['id', 'date', 'weekly', 'daily', 'intervals']);
 
                     id = res.body.data.id;
                     done(error);
@@ -110,11 +104,9 @@ describe('Testes de integração', () => {
 
             const regraHorarioTeste = {
                 id: 4,
-                type: {
-                    date: null,
-                    weekly: [],
-                    daily: true
-                },
+                date: null,
+                weekly: [],
+                daily: true,
                 intervals: [
                     {
                         start: "23:00",
@@ -140,11 +132,9 @@ describe('Testes de integração', () => {
 
             const regraHorario1_updated = {
                 id: 1,
-                type: {
-                    date: null,
-                    weekly: [],
-                    daily: true
-                },
+                date: null,
+                weekly: [],
+                daily: true,
                 intervals: [
                     {
                         start: "10:40",
