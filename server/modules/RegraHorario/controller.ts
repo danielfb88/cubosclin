@@ -46,4 +46,4 @@ class RegraHorarioController {
     }
 }
 
-export default RegraHorarioController;
+export default new RegraHorarioController();

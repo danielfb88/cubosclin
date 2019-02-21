@@ -1,31 +1,28 @@
 import { Request, Response } from 'express';
 import RegraHorarioController from './controller';
-let regraHorarioCtrl;
 
 class RegraHorarioRoutes {
 
-    constructor() {
-        regraHorarioCtrl = new RegraHorarioController();
-    }
+    constructor() { }
 
     getAll(req: Request, res: Response) {
-        return regraHorarioCtrl.getAll(req, res);
+        return RegraHorarioController.getAll(req, res);
     }
 
-    getOne(req: Request, res: Response) {
-        return regraHorarioCtrl.getOne(req, res);
+    getById(req: Request, res: Response) {
+        return RegraHorarioController.getById(req, res);
     }
 
     create(req: Request, res: Response) {
-        return regraHorarioCtrl.create(req, res);
+        return RegraHorarioController.create(req, res);
     }
 
     update(req: Request, res: Response) {
-        return regraHorarioCtrl.update(req, res);
+        return RegraHorarioController.update(req, res);
     }
 
     delete(req: Request, res: Response) {
-        return regraHorarioCtrl.delete(req, res);
+        return RegraHorarioController.delete(req, res);
     }
 
 }
