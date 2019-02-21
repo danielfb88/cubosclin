@@ -27,4 +27,4 @@ class RegraHorarioRoutes {
 
 }
 
-export default RegraHorarioRoutes;
+export default new RegraHorarioRoutes();
