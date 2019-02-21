@@ -6,8 +6,6 @@ describe('Testes de integração', () => {
     'use strict';
     const config = require('../../server/config/env/config')();
 
-    let id;
-
     const regraHorario1 = {
         id: 1,
         date: '25-11-2018',
@@ -92,7 +90,6 @@ describe('Testes de integração', () => {
                     expect(res.body.payload.id).to.equal(regraHorario1.id);
                     expect(res.body.payload).to.have.all.keys(['id', 'date', 'weekly', 'daily', 'intervals']);
 
-                    id = res.body.payload.id;
                     done(error);
                 });
 
