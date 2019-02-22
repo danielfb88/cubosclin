@@ -44,6 +44,12 @@ class RegraHorarioController {
             .then(_.partial(Handlers.onSuccess, res))
             .catch(_.partial(Handlers.onError, res, 'Erro ao deletar Regra de Horario.'))
     }
+
+    deleteAll(req: Request, res: Response) {
+        RegraHorario.deleteAll()
+            .then(_.partial(Handlers.onSuccess, res))
+            .catch(_.partial(Handlers.onError, res, 'Erro ao deletar todos os objetos.'))
+    }
 }
 
 export default new RegraHorarioController();

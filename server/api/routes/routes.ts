@@ -11,6 +11,7 @@ class Routes {
         app.route('/api/regrahorario/create').post(RegraHorarioRoutes.create);
         app.route('/api/regrahorario/:id/update').put(RegraHorarioRoutes.update);
         app.route('/api/regrahorario/:id/delete').delete(RegraHorarioRoutes.delete);
+        app.route('/api/regrahorario/deleteAll').delete(RegraHorarioRoutes.deleteAll);
     }
 }
 

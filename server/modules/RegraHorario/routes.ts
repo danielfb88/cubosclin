@@ -25,6 +25,10 @@ class RegraHorarioRoutes {
         return RegraHorarioController.delete(req, res);
     }
 
+    deleteAll(req: Request, res: Response) {
+        return RegraHorarioController.deleteAll(req, res);
+    }
+
 }
 
 export default new RegraHorarioRoutes();

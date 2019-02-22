@@ -33,6 +33,10 @@ class RegraHorario implements IRegraHorario {
         // criar outra classe com abstração para trabalhar com dados em arquivos e usar aqui
         return null;
     }
+
+    deleteAll() {
+        return FileManager.clean();
+    }
 }
 
 export default new RegraHorario();

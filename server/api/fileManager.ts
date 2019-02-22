@@ -17,6 +17,9 @@ class FileManager {
 
                 } else {
                     var objStored = JSON.parse(readed_data); //now it an object
+                    var newId = objStored.table.length;
+                    newObj.id = newId;
+                    
                     objStored.table.push(newObj); //add some data
                     var json_text = JSON.stringify(objStored); //convert it back to json
                     fs.writeFile(filePath, json_text, 'utf8', function (err) { reject(err); }); // write it back 
