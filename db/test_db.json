@@ -1,1 +1,1 @@
-{"table":[{"id":1,"name":"Daniel","idade":31}]}
+{"table":[{"id":1,"date":"25-11-2018","weekly":[],"daily":false,"intervals":[{"start":"00:00","end":"01:00"}]},{"id":2,"date":null,"weekly":[],"daily":true,"intervals":[{"start":"01:00","end":"02:00"},{"start":"02:01","end":"02:30"}]},{"id":3,"date":null,"weekly":["mon","thu","sat"],"daily":false,"intervals":[{"start":"03:00","end":"04:00"}]}]}

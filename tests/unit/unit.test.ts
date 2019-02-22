@@ -1,8 +1,6 @@
 import { testdouble, expect } from './config/helpers';
 import RegraHorarioService from '../../server/modules/RegraHorario/service';
-
 import FileManager from '../../server/api/fileManager';
-import { clearScreenDown } from 'readline';
 
 describe('Testes Unitários do File Manager', () => {
 
@@ -12,50 +10,91 @@ describe('Testes Unitários do File Manager', () => {
     });
 
     describe('Método getAll', () => {
-        it('Deve buscar todos os objeto no arquivo', async () => {
+        it('Deve buscar todos os objeto no arquivo', () => {
             const newObj1 = {
                 id: 1,
-                name: 'Daniel',
-                idade: 31
+                date: '25-11-2018',
+                weekly: [],
+                daily: false,
+                intervals: [
+                    {
+                        start: "00:00",
+                        end: "01:00"
+                    },
+                ]
             }
 
             const newObj2 = {
                 id: 2,
-                name: 'Maria',
-                idade: 43
+                date: null,
+                weekly: [],
+                daily: true,
+                intervals: [
+                    {
+                        start: "01:00",
+                        end: "02:00"
+                    },
+                    {
+                        start: "02:01",
+                        end: "02:30"
+                    },
+                ]
             }
 
             const newObj3 = {
                 id: 3,
-                name: 'Marcia',
-                idade: 64
+                date: null,
+                weekly: ['mon', 'thu', 'sat'],
+                daily: false,
+                intervals: [
+                    {
+                        start: "03:00",
+                        end: "04:00"
+                    }
+                ]
             }
 
-            await FileManager.save(newObj1);
-            await FileManager.save(newObj2);
-            await FileManager.save(newObj3);
+            FileManager.save(newObj1)
+                .then(() => {
+                    FileManager.save(newObj2)
+                        .then(() => {
+                            FileManager.save(newObj3)
+                                .then(() => {
+                                    FileManager.getAll()
+                                        .then(data => {
+                                            expect(data.table.length).to.equal(3);
+                                        })
+                                });
+                        });
+                });
 
-            await FileManager.getAll()
-                        .then(data => {
-                            expect(data.table.length).to.equal(3);
-                        })
+
+
+
         });
     });
 
-    describe('Método save', () => {
-        it('Deve criar um objeto no arquivo', () => {
-            const newObj = {
-                id: 1,
-                name: 'Daniel',
-                idade: 31
-            }
+    // describe('Método save', () => {
+    //     it('Deve criar um objeto no arquivo', () => {
+    //         const newObj = {
+    //             id: 4,
+    //             date: null,
+    //             weekly: ['sat'],
+    //             daily: false,
+    //             intervals: [
+    //                 {
+    //                     start: "12:00",
+    //                     end: "14:00"
+    //                 }
+    //             ]
+    //         }
 
-            FileManager.save(newObj)
-                .then(data => {
-                    expect(data.name).to.equal(newObj.name)
-                })
-        });
-    });
+    //         return FileManager.save(newObj)
+    //             .then(data => {
+    //                 expect(data.id).to.equal(newObj.id)
+    //             })
+    //     });
+    // });
 
     // describe('Método clean', () => {
     //     it('Deve limpar o arquivo', () => {
@@ -187,17 +226,6 @@ describe('Testes Unitários do Service', () => {
     //             .then(data => {
     //                 expect(data).to.be.equal(1) // retorna a qtd de registro afetado
     //             })
-    //     });
-    // });
-
-    // describe('Método Lacaio', () => {
-    //     it('Teste', done => {
-
-    //         FileManager.clean();
-    //         done();
-
-
-
     //     });
     // });
 

@@ -1,5 +1,6 @@
 import { IRegraHorario, createRegraHorario, createRegrasHorarios } from './interface';
 import * as Bluebird from 'bluebird';
+import FileManager from '../../api/fileManager';
 
 class RegraHorario implements IRegraHorario {
     public id: number;
@@ -11,13 +12,11 @@ class RegraHorario implements IRegraHorario {
     constructor() { }
 
     create(regraHorario: any) {
-        // criar outra classe com abstração para trabalhar com dados em arquivos e usar aqui (faça com que venha promises)
-        return regraHorario;
+        return FileManager.save(regraHorario);
     }
 
     getAll(): Bluebird<IRegraHorario[]> {
-        // criar outra classe com abstração para trabalhar com dados em arquivos e usar aqui
-        return null;
+        return FileManager.getAll();
     }
 
     getById(id: number): Bluebird<IRegraHorario> {
