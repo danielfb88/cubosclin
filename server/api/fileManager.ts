@@ -30,8 +30,36 @@ class FileManager {
         });
     }
 
-    update(updatedObj: any): any {
+    update(id: number, updatedObj: any): any {
+        return new Promise(function (resolve, reject) {
+            let found: boolean = false;
+            let table: Array<any>;
 
+            fs.readFile(filePath, 'utf8', function readFileCallback(err, readed_data) {
+                if (err) {
+                    reject(err);
+
+                } else {
+                    table = JSON.parse(readed_data).table; //now it an object
+                    table.forEach(obj => {
+                        if (obj.id == id) {
+                            found = true;
+                            obj.date = updatedObj.date;
+                            obj.weekly = updatedObj.weekly;
+                            obj.daily = updatedObj.daily;
+                            obj.intervals = updatedObj.intervals;
+                        }
+                    });
+                    var json_text = JSON.stringify({table}); //convert it back to json
+
+                    if (found) {
+                        fs.writeFile(filePath, json_text, 'utf8', function (err) { reject(err); }); // write it back 
+                        resolve({table});
+                    } else
+                        reject(`Id: ${id} Não encontrado`);
+                }
+            });
+        });
     };
 
     getAll(): any {

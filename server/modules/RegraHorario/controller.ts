@@ -30,9 +30,8 @@ class RegraHorarioController {
 
     update(req: Request, res: Response) {
         const regraHorarioId = parseInt(req.params.id);
-        const props = req.body;
 
-        RegraHorario.update(regraHorarioId, props)
+        RegraHorario.update(regraHorarioId, req.body)
             .then(_.partial(Handlers.onSuccess, res))
             .catch(_.partial(Handlers.onError, res, 'Falha ao atualizar Regra de Horario.'))
     }

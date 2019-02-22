@@ -24,8 +24,7 @@ class RegraHorario implements IRegraHorario {
     }
 
     update(id: number, regraHorario: any): Bluebird<IRegraHorario> {
-        // criar outra classe com abstração para trabalhar com dados em arquivos e usar aqui
-        return regraHorario;
+        return FileManager.update(id, regraHorario);
     }
 
     delete(id: number) {
