@@ -49,6 +49,20 @@ class RegraHorarioController {
             .then(_.partial(Handlers.onSuccess, res))
             .catch(_.partial(Handlers.onError, res, 'Erro ao deletar todos os objetos.'))
     }
+
+    // getHorarios(req: Request, res: Response) {
+    //     RegraHorario.getAll()
+    //         .then(arr => {
+    //             var objReturn = {};
+
+    //             arr.forEach(element => {
+
+    //             });
+
+    //             _.partial(Handlers.onSuccess, res)
+    //         })
+    //         .catch(_.partial(Handlers.onError, res, 'Erro ao buscar os horários.'))
+    // }
 }
 
 export default new RegraHorarioController();

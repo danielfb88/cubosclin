@@ -70,7 +70,7 @@ class FileManager {
 
                 } else {
                     var objStored = JSON.parse(readed_data); //now it an object
-                    resolve(objStored);
+                    resolve(objStored.table);
                 }
             });
 
