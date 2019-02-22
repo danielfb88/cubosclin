@@ -1,7 +1,7 @@
 import { IRegraHorario, createRegraHorario, createRegrasHorarios } from './interface';
 import * as Bluebird from 'bluebird';
 
-class RegraHorarioService implements IRegraHorario {
+class RegraHorario implements IRegraHorario {
     public id: number;
     public date: string;
     public weekly: string[];
@@ -36,4 +36,4 @@ class RegraHorarioService implements IRegraHorario {
     }
 }
 
-export default new RegraHorarioService();
+export default new RegraHorario();

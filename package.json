@@ -4,7 +4,8 @@
   "description": "Gerenciamento de horários da CubosClin",
   "main": "server/server.ts",
   "scripts": {
-    "builded": "gulp && NODE_ENV=development node ./dist/server/server.js",
+    "start": "NODE_ENV=development ./node_modules/.bin/ts-node ./server/server.ts",
+    "builded": "gulp && NODE_ENV=production node ./dist/server/server.js",
     "unit-test": "gulp && NODE_ENV=test mocha --opts dist/tests/unit/config/mocha.opts ./dist/tests/unit/unit.test.js",
     "integration-test": "gulp && NODE_ENV=test mocha --opts dist/tests/integration/config/mocha.opts ./dist/tests/integration/integration.test.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,9 +17,11 @@
   "author": "Daniel Bonfim",
   "license": "ISC",
   "dependencies": {
+    "app-root-path": "^2.1.0",
     "bluebird": "^3.5.3",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "file-system": "^2.2.2",
     "http": "0.0.0",
     "http-status": "^1.3.1",
     "lodash": "^4.17.11",
