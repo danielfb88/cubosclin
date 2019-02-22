@@ -11,7 +11,7 @@ class RegraHorario implements IRegraHorario {
 
     constructor() { }
 
-    create(regraHorario: any) {
+    create(regraHorario: any): Bluebird<IRegraHorario> {
         return FileManager.save(regraHorario);
     }
 
@@ -20,11 +20,10 @@ class RegraHorario implements IRegraHorario {
     }
 
     getById(id: number): Bluebird<IRegraHorario> {
-        // criar outra classe com abstração para trabalhar com dados em arquivos e usar aqui
-        return null;
+        return FileManager.getById(id);
     }
 
-    update(id: number, regraHorario: any) {
+    update(id: number, regraHorario: any): Bluebird<IRegraHorario> {
         // criar outra classe com abstração para trabalhar com dados em arquivos e usar aqui
         return regraHorario;
     }
