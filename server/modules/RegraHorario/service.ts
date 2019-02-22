@@ -29,8 +29,7 @@ class RegraHorario implements IRegraHorario {
     }
 
     delete(id: number) {
-        // criar outra classe com abstração para trabalhar com dados em arquivos e usar aqui
-        return null;
+        return FileManager.deleteById(id);
     }
 
     deleteAll() {

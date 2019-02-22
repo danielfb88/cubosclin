@@ -1,6 +1,7 @@
 import * as appRoot from 'app-root-path';
 import * as fs from 'file-system';
 import { reject } from 'bluebird';
+import * as _ from 'lodash';
 
 const config = require('../../server/config/env/config')();
 let filePath = `${appRoot.path}/${config.databaseFileName}`;
@@ -28,6 +29,10 @@ class FileManager {
             });
         });
     }
+
+    update(updatedObj: any): any {
+
+    };
 
     getAll(): any {
         return new Promise(function (resolve, reject) {
@@ -57,7 +62,37 @@ class FileManager {
                             resolve(obj);
                         }
                     });
-                    reject();
+                    reject(`Id: ${id} Não encontrado`);
+                }
+            });
+
+        });
+    }
+
+    deleteById(id: number): any {
+        return new Promise(function (resolve, reject) {
+            fs.readFile(filePath, 'utf8', function readFileCallback(err, readed_data) {
+                if (err) {
+                    reject(err);
+
+                } else {
+                    var arr = JSON.parse(readed_data).table; //now it an object
+                    var table = [];
+
+                    arr.forEach(obj => {
+                        if (obj.id != id) {
+                            table.push(obj);
+                        }
+                    });
+
+                    var json_text = JSON.stringify({ table }); //convert it back to json
+                    fs.writeFile(filePath, json_text, 'utf8', function (err) { reject(err); }); // write it back 
+
+                    if (table.length == arr.length)
+                        reject(`Id: ${id} Não encontrado`);
+                    else
+                        resolve(table);
+
                 }
             });
 
