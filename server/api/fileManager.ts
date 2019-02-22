@@ -8,20 +8,23 @@ class FileManager {
 
     constructor() { }
 
-    save(newObj: any) {
+    save(newObj: any): any {
 
-        fs.readFile(filePath, 'utf8', function readFileCallback(err, data) {
-            if (err) {
-                console.log(err);
+        return new Promise(function (resolve, reject) {
+            fs.readFile(filePath, 'utf8', function readFileCallback(err, readed_data) {
+                if (err) {
+                    reject(err);
 
-            } else {
-                console.log(data);
-                let objStored = JSON.parse(data); //now it an object
-                objStored.table.push(newObj); //add some data
-                let json_text = JSON.stringify(objStored); //convert it back to json
-                fs.writeFile(filePath, json_text, 'utf8', function (err) { console.log(err) }); // write it back 
-            }
+                } else {
+                    let objStored = JSON.parse(readed_data); //now it an object
+                    objStored.table.push(newObj); //add some data
+                    let json_text = JSON.stringify(objStored); //convert it back to json
+                    fs.writeFile(filePath, json_text, 'utf8', function (err) { reject(err); }); // write it back 
+                    resolve(newObj);
+                }
+            });
         });
+
     }
 
     getAll(): any {
@@ -37,9 +40,15 @@ class FileManager {
         });
     }
 
-    clean() {
-        let json_text = JSON.stringify({ table: [] });
-        fs.writeFile(filePath, json_text, 'utf8', function (err) { console.log(err) });
+    clean(): any {
+        var clean_obj = { table: [] };
+        var json_text = JSON.stringify(clean_obj);
+
+        return new Promise(function (resolve, reject) {
+            fs.writeFile(filePath, json_text, 'utf8', function (err) { reject(err) });
+            resolve(clean_obj);
+        })
+
     }
 }
 

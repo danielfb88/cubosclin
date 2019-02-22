@@ -2,6 +2,40 @@ import { testdouble, expect } from './config/helpers';
 import RegraHorarioService from '../../server/modules/RegraHorario/service';
 
 import FileManager from '../../server/api/fileManager';
+import { clearScreenDown } from 'readline';
+
+describe('Testes Unitários do File Manager', () => {
+
+    beforeEach((done) => {
+        FileManager.clean();
+        done();
+    })
+
+    describe('Método save', () => {
+        it('Deve criar um objeto no arquivo', () => {
+            const newObj = {
+                id: 1,
+                name: 'Daniel',
+                idade: 31
+            }
+
+            return FileManager.save(newObj)
+                .then(data => {
+                    expect(data.name).to.equal(newObj.name)
+                })
+        });
+    });
+
+    describe('Método clean', () => {
+        it('Deve limpar o arquivo', () => {
+            FileManager.clean()
+            .then(obj => {
+                expect(obj.table).to.be.empty;
+            })
+        });
+    });
+
+});
 
 describe('Testes Unitários do Service', () => {
 
@@ -125,16 +159,16 @@ describe('Testes Unitários do Service', () => {
     //     });
     // });
 
-    describe('Método Lacaio', () => {
-        it('Teste', done => {
+    // describe('Método Lacaio', () => {
+    //     it('Teste', done => {
 
-            FileManager.save({nome:'daniel', idade:31});
-            done();
+    //         FileManager.clean();
+    //         done();
 
 
-            
-        });
-    });
+
+    //     });
+    // });
 
 
 
