@@ -31,15 +31,7 @@ class FileManager {
                     console.log(filePath);
                     console.log(json_text);
 
-                    fs.writeFile(filePath, json_text, 'utf8',
-                        resolve((err) => {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                return objStored;
-                            }
-                        }));
-                    resolve();
+                    resolve(fs.writeFile(filePath, json_text, 'utf8', (err) => { }));
 
                 }
             });

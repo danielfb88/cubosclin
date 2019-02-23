@@ -103,8 +103,14 @@ describe('Testes Unitários do File Manager', () => {
             }
 
             return FileManager.append(newObj)
-                .then(data => {
-                    expect(data.id).to.equal(newObj.id)
+                .then(() => {
+                    console.log('aaaaaaaaaaaa');
+                    console.log('aaaaaaaaaaaa');
+                    FileManager.getAll()
+                        .then(data => {
+                            console.log('bbbbbbbbbbbb');
+                            expect(data.table[0].id).to.equal(0);
+                        });
                 })
         });
     });
