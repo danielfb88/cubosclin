@@ -160,33 +160,46 @@ describe('Testes Unitários do Service', () => {
         done();
     });
 
-    // describe('Método Create', () => {
-    //     it('Deve criar uma nova Regra de Horário', () => {
-    //         return RegraHorario.create(regraHorario1)
-    //             .then(data => {
-    //                 expect(data.id).to.equal(regraHorario1.id);
-    //             })
-    //     });
-    // });
+    describe('Método Create', () => {
+        it('Deve criar uma nova Regra de Horário', done => {
+            RegraHorario.create(regraHorario1)
+                .then(data => {
+                    expect(data.id).to.equal(0);
+                    done();
+                })
+        });
+    });
 
-    // describe('Método Update', () => {
-    //     it('Deve atualizar uma Regra de Horário', () => {
-    //         const regraHorarioAtualizada = {
-    //             date: null,
-    //             weekly: [],
-    //             daily: true,
-    //             intervals: [{ start: '10:20', end: '11:40' }]
-    //         }
+    describe('Método Update', () => {
+        it('Deve atualizar uma Regra de Horário', () => {
+            const regraHorario_updated = {
+                date: '08-02-1988',
+                weekly: [],
+                daily: true,
+                intervals: [{ start: '10:20', end: '11:40' }]
+            }
 
-    //         return RegraHorarioService.update(1, regraHorarioAtualizada)
-    //             .then(data => {
-    //                 expect(data[0]).to.be.equal(1)
-    //             })
-    //     });
-    // });
+            FileManager.save(regraHorario1)
+                .then(() => {
+                    FileManager.save(regraHorario2)
+                        .then(() => {
+                            FileManager.save(regraHorario3)
+                                .then(() => {
+
+                                    RegraHorario.update(1, regraHorario_updated)
+                                        .then(data => {
+                                            expect(data[0].date).to.be.equal(regraHorario_updated.date)
+                                        })
+
+                                });
+                        });
+                });
+
+        });
+    });
 
     describe('Método getById', () => {
-        it('Deve retornar um Regra de Horário de acordo com o ID passado', () => {
+        it('Deve retornar um Regra de Horário de acordo com o ID passado', done => {
 
             FileManager.save(regraHorario1)
                 .then(() => {
@@ -196,9 +209,8 @@ describe('Testes Unitários do Service', () => {
                                 .then(() => {
                                     FileManager.getById(0)
                                         .then(data => {
-                                            // console.log('aaaaaaaaaaaaaaaaaaaaa');
-                                            console.log(data);
                                             expect(data.id).to.equal(0);
+                                            done();
                                         })
                                         .catch(err => {
                                             console.log(err);
@@ -209,24 +221,25 @@ describe('Testes Unitários do Service', () => {
         });
     });
 
-    // describe('Método Get Regras de Horários', () => {
-    //     it('Deve retornar uma lista com todas as Regras de Horários', () => {
-    //         return RegraHorarioService.getAll().then(data => {
-    //             expect(data).to.be.an('array');
-    //         })
-    //     });
-    // });
+    describe('Método Get Regras de Horários', () => {
+        it('Deve retornar uma lista com todas as Regras de Horários', () => {
 
-    // describe('Método Delete', () => {
-    //     it('Deve deletar uma Regra de Horário', () => {
-    //         return RegraHorarioService.delete(1)
-    //             .then(data => {
-    //                 expect(data).to.be.equal(1) // retorna a qtd de registro afetado
-    //             })
-    //     });
-    // });
+            FileManager.save(regraHorario1)
+                .then(() => {
+                    FileManager.save(regraHorario2)
+                        .then(() => {
+                            FileManager.save(regraHorario3)
+                                .then(() => {
+                                    
+                                    RegraHorario.getAll().then(data => {
+                                        expect(data).to.be.an('array');
+                                    })
 
+                                });
+                        });
+                });
 
-
+        });
+    });
 
 })
