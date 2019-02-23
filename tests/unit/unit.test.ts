@@ -196,7 +196,7 @@ describe('Testes Unitários do Service', () => {
                                 .then(() => {
                                     FileManager.getById(0)
                                         .then(data => {
-                                            console.log('aaaaaaaaaaaaaaaaaaaaa');
+                                            // console.log('aaaaaaaaaaaaaaaaaaaaa');
                                             console.log(data);
                                             expect(data.id).to.equal(0);
                                         })

@@ -1,5 +1,7 @@
 import { app, request, expect } from './config/helpers';
 import * as HTTPStatus from 'http-status';
+import FileManager from '../../server/api/fileManager';
+import RegraHorario from '../../server/modules/RegraHorario/service';
 
 describe('Testes de integração', () => {
 
@@ -25,7 +27,7 @@ describe('Testes de integração', () => {
 
     const regraHorario2 = {
         id: 2,
-        date: null,
+        date: '',
         weekly: ['mon', 'thu', 'sat'],
         daily: false,
         intervals: [
@@ -42,7 +44,7 @@ describe('Testes de integração', () => {
 
     const regraHorario3 = {
         id: 3,
-        date: null,
+        date: '',
         weekly: [],
         daily: true,
         intervals: [
@@ -58,39 +60,55 @@ describe('Testes de integração', () => {
     }
 
     beforeEach((done) => {
-        // 1 - remova todos os registros da base
-
-        // 2 - use o serviço responsável para inserir os registros na base de dados em arquivo e chame o done() para finalizar o beforeEach
-
+        FileManager.clean();
         done();
-    })
+    });
 
     describe('GET /api/regrahorario/all', () => {
         it('Deve retornar um array com todos os objetos regraHorario', done => {
 
-            request(app)
-                .get('/api/regrahorario/all')
-                .end((error, res) => {
-                    expect(res.status).to.equal(HTTPStatus.OK);
-                    expect(res.body.payload).to.be.an('array');
-                    expect(res.body.payload[0].id).to.be.equal(regraHorario1.id);
-                    done(error);
-                })
+            FileManager.save(regraHorario1)
+                .then(() => {
+                    FileManager.save(regraHorario2)
+                        .then(() => {
+                            FileManager.save(regraHorario3)
+                                .then(() => {
+
+                                    request(app)
+                                        .get('/api/regrahorario/all')
+                                        .end((error, res) => {
+                                            expect(res.status).to.equal(HTTPStatus.OK);
+                                            expect(res.body.payload.length).to.equal(3);
+                                            done(error);
+                                        })
+
+                                });
+                        });
+                });
 
         });
     });
 
     describe('GET /api/regrahorario/:id', () => {
-        it('Deve retornar um array com apenas um objeto regraHorario', done => {
+        it('Deve retornar apenas o objeto solicitado', done => {
 
-            request(app)
-                .get(`/api/regrahorario/${regraHorario1.id}`)
-                .end((error, res) => {
-                    expect(res.status).to.equal(HTTPStatus.OK);
-                    expect(res.body.payload.id).to.equal(regraHorario1.id);
-                    expect(res.body.payload).to.have.all.keys(['id', 'date', 'weekly', 'daily', 'intervals']);
+            FileManager.save(regraHorario1)
+                .then(() => {
+                    FileManager.save(regraHorario2)
+                        .then(() => {
+                            FileManager.save(regraHorario3)
+                                .then(() => {
 
-                    done(error);
+                                    request(app)
+                                        .get(`/api/regrahorario/${regraHorario1.id}`)
+                                        .end((error, res) => {
+                                            expect(res.status).to.equal(HTTPStatus.OK);
+                                            expect(res.body.payload.id).to.equal(regraHorario1.id);
+                                            done(error);
+                                        })
+
+                                });
+                        });
                 });
 
         });
@@ -100,8 +118,7 @@ describe('Testes de integração', () => {
         it('Deve criar um objeto regraHorario', done => {
 
             const regraHorarioTeste = {
-                id: 4,
-                date: null,
+                date: '',
                 weekly: [],
                 daily: true,
                 intervals: [
@@ -117,7 +134,7 @@ describe('Testes de integração', () => {
                 .send(regraHorarioTeste)
                 .end((error, res) => {
                     expect(res.status).to.equal(HTTPStatus.OK);
-                    expect(res.body.payload.id).to.eql(regraHorarioTeste.id);
+                    expect(res.body.payload.id).to.eql(0);
                     done(error);
                 })
 
@@ -128,8 +145,7 @@ describe('Testes de integração', () => {
         it('Deve editar um objeto regraHorario', done => {
 
             const regraHorario1_updated = {
-                id: 1,
-                date: null,
+                date: '08-02-1988',
                 weekly: [],
                 daily: true,
                 intervals: [
@@ -142,15 +158,28 @@ describe('Testes de integração', () => {
                         end: "12:00"
                     },
                 ]
-            }
-            request(app)
-                .put(`/api/regrahorario/${regraHorario1.id}/update`)
-                .send(regraHorario1_updated)
-                .end((error, res) => {
-                    expect(res.status).to.equal(HTTPStatus.OK);
-                    expect(res.body.payload.id).to.equal(regraHorario1_updated.id);
-                    done(error);
-                })
+            };
+
+
+            FileManager.save(regraHorario1)
+                .then(() => {
+                    FileManager.save(regraHorario2)
+                        .then(() => {
+                            FileManager.save(regraHorario3)
+                                .then(() => {
+
+                                    request(app)
+                                        .put(`/api/regrahorario/${regraHorario1.id}/update`)
+                                        .send(regraHorario1_updated)
+                                        .end((error, res) => {
+                                            expect(res.status).to.equal(HTTPStatus.OK);
+                                            expect(res.body.payload.table[0].date).to.equal(regraHorario1_updated.date);
+                                            done(error);
+                                        })
+
+                                });
+                        });
+                });
 
         });
     });
@@ -158,12 +187,23 @@ describe('Testes de integração', () => {
     describe('DELETE /api/regrahorario/:id/delete', () => {
         it('Deve deletar um objeto regraHorario', done => {
 
-            request(app)
-                .delete(`/api/regrahorario/${regraHorario1.id}/delete`)
-                .end((error, res) => {
-                    expect(res.status).to.equal(HTTPStatus.OK);
-                    done(error);
-                })
+            FileManager.save(regraHorario1)
+                .then(() => {
+                    FileManager.save(regraHorario2)
+                        .then(() => {
+                            FileManager.save(regraHorario3)
+                                .then(() => {
+
+                                    request(app)
+                                        .delete(`/api/regrahorario/${regraHorario1.id}/delete`)
+                                        .end((error, res) => {
+                                            expect(res.status).to.equal(HTTPStatus.OK);
+                                            done(error);
+                                        })
+
+                                });
+                        });
+                });
 
         });
     });
