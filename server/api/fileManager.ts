@@ -2,6 +2,7 @@ import * as appRoot from 'app-root-path';
 import * as fs from 'file-system';
 import { reject } from 'bluebird';
 import * as _ from 'lodash';
+import { json } from 'body-parser';
 
 const config = require('../../server/config/env/config')();
 let filePath = `${appRoot.path}/${config.databaseFileName}`;
@@ -10,21 +11,37 @@ class FileManager {
 
     constructor() { }
 
-    save(newObj: any): any {
+    append(newObj: any): any {
+        console.log('iniciando append');
         return new Promise(function (resolve, reject) {
             fs.readFile(filePath, 'utf8', function readFileCallback(err, readed_data) {
                 if (err) {
+                    console.log('dentro da promise: erro');
                     reject(err);
 
                 } else {
+                    console.log('dentro da promise: sem erro');
                     var objStored = JSON.parse(readed_data); //now it an object
                     var newId = objStored.table.length;
                     newObj.id = newId;
 
                     objStored.table.push(newObj); //add some data
                     var json_text = JSON.stringify(objStored); //convert it back to json
-                    fs.writeFile(filePath, json_text, 'utf8', function (err) { reject(err); }); // write it back 
-                    resolve(newObj);
+                    console.log('dentro da promise: tudo ok aqui?');
+                    console.log(filePath);
+                    console.log(json_text);
+                    
+                    fs.writeFile(filePath, json_text, 'utf8', function (err) {
+                        console.log('dentro da funcao de callback: life is strange');
+                        if (err) {
+                            console.log('dentro da promise: probema');
+                            reject(err);
+                        } else {
+                            console.log('***json adicionado***');
+                            resolve(newObj);
+                        }
+                    });
+
                 }
             });
         });
@@ -50,13 +67,20 @@ class FileManager {
                             obj.intervals = updatedObj.intervals;
                         }
                     });
-                    var json_text = JSON.stringify({table}); //convert it back to json
+                    var json_text = JSON.stringify({ table }); //convert it back to json
 
                     if (found) {
-                        fs.writeFile(filePath, json_text, 'utf8', function (err) { reject(err); }); // write it back 
-                        resolve({table});
-                    } else
+                        fs.writeFile(filePath, json_text, 'utf8', function (err) {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                console.log('***json atualizado***');
+                                resolve({ table });
+                            }
+                        });
+                    } else {
                         reject(`Id: ${id} Não encontrado`);
+                    }
                 }
             });
         });
@@ -70,7 +94,8 @@ class FileManager {
 
                 } else {
                     var objStored = JSON.parse(readed_data); //now it an object
-                    resolve(objStored.table);
+                    console.log('***buscado todos***');
+                    resolve(objStored);
                 }
             });
 
@@ -87,6 +112,7 @@ class FileManager {
                     var arr = JSON.parse(readed_data).table; //now it an object
                     arr.forEach(obj => {
                         if (obj.id == id) {
+                            console.log('***buscado por id***');
                             resolve(obj);
                         }
                     });
@@ -114,12 +140,20 @@ class FileManager {
                     });
 
                     var json_text = JSON.stringify({ table }); //convert it back to json
-                    fs.writeFile(filePath, json_text, 'utf8', function (err) { reject(err); }); // write it back 
+                    fs.writeFile(filePath, json_text, 'utf8', function (err) {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            if (table.length == arr.length) {
+                                reject(`Id: ${id} Não encontrado`);
+                            } else{
+                                console.log('***deletado por id***');
+                                resolve({ table });
+                            }
+                        }
+                    });
 
-                    if (table.length == arr.length)
-                        reject(`Id: ${id} Não encontrado`);
-                    else
-                        resolve(table);
+
 
                 }
             });
@@ -127,35 +161,45 @@ class FileManager {
         });
     }
 
-    clean(): any {
+    initJson(): any {
         var clean_obj = { table: [] };
         var json_text = JSON.stringify(clean_obj);
 
         return new Promise(function (resolve, reject) {
-            fs.writeFile(filePath, json_text, 'utf8', function (err) { reject(err) });
-            resolve(clean_obj);
+            fs.writeFile(filePath, json_text, 'utf8', function (err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(clean_obj);
+                    console.log('***json inicializado***');
+                }
+            });
         })
 
     }
 
-    createFile(fileName: string) {
+    createFile() {
         return new Promise(function (resolve, reject) {
-            fs.open(`${appRoot.path}/${fileName}`, 'w', function (err, file) {
-                if (err)
+            fs.open(filePath, 'w', function (err, file) {
+                if (err) {
                     reject(err);
-                else
+                } else {
                     resolve(file);
+                    console.log('***arquivo criado***');
+                }
             });
         });
     }
 
-    deleteFile(fileName: string) {
+    deleteFile() {
         return new Promise(function (resolve, reject) {
-            fs.unlink(`${appRoot.path}/${fileName}`, function (err) {
-                if (err)
+            fs.unlink(filePath, function (err) {
+                if (err) {
                     reject(err);
-                else
+                } else {
                     resolve();
+                    console.log('***arquivo deletado***');
+                }
             });
         });
     }

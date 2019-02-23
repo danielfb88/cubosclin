@@ -12,7 +12,7 @@ class RegraHorario implements IRegraHorario {
     constructor() { }
 
     create(regraHorario: any): Bluebird<IRegraHorario> {
-        return FileManager.save(regraHorario);
+        return FileManager.append(regraHorario);
     }
 
     getAll(): Bluebird<IRegraHorario[]> {
@@ -32,7 +32,7 @@ class RegraHorario implements IRegraHorario {
     }
 
     deleteAll() {
-        return FileManager.clean();
+        return FileManager.initJson();
     }
 }
 

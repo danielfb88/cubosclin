@@ -2,108 +2,135 @@ import { testdouble, expect } from './config/helpers';
 import RegraHorario from '../../server/modules/RegraHorario/service';
 import FileManager from '../../server/api/fileManager';
 
-// describe('Testes Unitários do File Manager', () => {
+describe('Testes Unitários do File Manager', () => {
 
-//     beforeEach((done) => {
-//         FileManager.clean();
-//         done();
-//     });
+    beforeEach((done) => {
+        FileManager.createFile()
+            .then(() => {
+                FileManager.initJson();
+                done();
+            });
+    });
 
-//     describe('Método getAll', () => {
-//         it('Deve buscar todos os objeto no arquivo', done => {
-//             const newObj1 = {
-//                 id: 1,
-//                 date: '25-11-2018',
-//                 weekly: [],
-//                 daily: false,
-//                 intervals: [
-//                     {
-//                         start: "00:00",
-//                         end: "01:00"
-//                     },
-//                 ]
-//             }
+    // afterEach((done) => {
+    //     FileManager.deleteFile()
+    //         .then(() => {
+    //             done();
+    //         });
+    // });
 
-//             const newObj2 = {
-//                 id: 2,
-//                 date: null,
-//                 weekly: [],
-//                 daily: true,
-//                 intervals: [
-//                     {
-//                         start: "01:00",
-//                         end: "02:00"
-//                     },
-//                     {
-//                         start: "02:01",
-//                         end: "02:30"
-//                     },
-//                 ]
-//             }
+    describe('Método getAll', () => {
+        it('Deve buscar todos os objeto no arquivo', done => {
+            const newObj1 = {
+                id: 1,
+                date: '25-11-2018',
+                weekly: [],
+                daily: false,
+                intervals: [
+                    {
+                        start: "00:00",
+                        end: "01:00"
+                    },
+                ]
+            }
 
-//             const newObj3 = {
-//                 id: 3,
-//                 date: null,
-//                 weekly: ['mon', 'thu', 'sat'],
-//                 daily: false,
-//                 intervals: [
-//                     {
-//                         start: "03:00",
-//                         end: "04:00"
-//                     }
-//                 ]
-//             }
+            const newObj2 = {
+                id: 2,
+                date: null,
+                weekly: [],
+                daily: true,
+                intervals: [
+                    {
+                        start: "01:00",
+                        end: "02:00"
+                    },
+                    {
+                        start: "02:01",
+                        end: "02:30"
+                    },
+                ]
+            }
 
-//             FileManager.save(newObj1)
-//                 .then(() => {
-//                     FileManager.save(newObj2)
-//                         .then(() => {
-//                             FileManager.save(newObj3)
-//                                 .then(() => {
-//                                     FileManager.getAll()
-//                                         .then(data => {
-//                                             expect(data.table.length).to.equal(3);
-//                                             done();
-//                                         })
-//                                 });
-//                         });
-//                 });
+            const newObj3 = {
+                id: 3,
+                date: null,
+                weekly: ['mon', 'thu', 'sat'],
+                daily: false,
+                intervals: [
+                    {
+                        start: "03:00",
+                        end: "04:00"
+                    }
+                ]
+            }
 
-//         });
-//     });
+            console.log('iniciando');
+            FileManager.append(newObj1)
+                .then(obj => {
+                    console.log('ok 1');
+                    FileManager.append(newObj2)
+                        .then(obj => {
+                            console.log('ok 2');
+                            FileManager.append(newObj3)
+                                .then(obj => {
+                                    console.log('ok 3');
+                                    FileManager.getAll()
+                                        .then(data => {
+                                            console.log('getALLLLL');
+                                            expect(data.table.length).to.equal(3);
+                                            done();
+                                        })
+                                        .catch(err => {
+                                            console.log(err);
+                                        });
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                });
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
+                })
+                .catch(err => {
+                    console.log(err);
+                });
 
-//     // describe('Método save', () => {
-//     //     it('Deve criar um objeto no arquivo', () => {
-//     //         const newObj = {
-//     //             id: 4,
-//     //             date: null,
-//     //             weekly: ['sat'],
-//     //             daily: false,
-//     //             intervals: [
-//     //                 {
-//     //                     start: "12:00",
-//     //                     end: "14:00"
-//     //                 }
-//     //             ]
-//     //         }
+        });
+    });
 
-//     //         return FileManager.save(newObj)
-//     //             .then(data => {
-//     //                 expect(data.id).to.equal(newObj.id)
-//     //             })
-//     //     });
-//     // });
+    // describe('Método save', () => {
+    //     it('Deve criar um objeto no arquivo', () => {
+    //         const newObj = {
+    //             id: 4,
+    //             date: null,
+    //             weekly: ['sat'],
+    //             daily: false,
+    //             intervals: [
+    //                 {
+    //                     start: "12:00",
+    //                     end: "14:00"
+    //                 }
+    //             ]
+    //         }
 
-//     // describe('Método clean', () => {
-//     //     it('Deve limpar o arquivo', () => {
-//     //         FileManager.clean()
-//     //         .then(obj => {
-//     //             expect(obj.table).to.be.empty;
-//     //         })
-//     //     });
-//     // });
+    //         return FileManager.save(newObj)
+    //             .then(data => {
+    //                 expect(data.id).to.equal(newObj.id)
+    //             })
+    //     });
+    // });
 
-// });
+    // describe('Método clean', () => {
+    //     it('Deve limpar o arquivo', () => {
+    //         FileManager.clean()
+    //         .then(obj => {
+    //             expect(obj.table).to.be.empty;
+    //         })
+    //     });
+    // });
+
+});
 
 describe('Testes Unitários do Service', () => {
 
@@ -155,10 +182,10 @@ describe('Testes Unitários do Service', () => {
         ]
     }
 
-    beforeEach((done) => {
-        FileManager.clean();
-        done();
-    });
+    // beforeEach((done) => {
+    //     FileManager.clean();
+    //     done();
+    // });
 
     // describe('Método Create', () => {
     //     it('Deve criar uma nova Regra de Horário', () => {
@@ -185,29 +212,29 @@ describe('Testes Unitários do Service', () => {
     //     });
     // });
 
-    describe('Método getById', () => {
-        it('Deve retornar um Regra de Horário de acordo com o ID passado', () => {
+    // describe('Método getById', () => {
+    //     it('Deve retornar um Regra de Horário de acordo com o ID passado', () => {
 
-            FileManager.save(regraHorario1)
-                .then(() => {
-                    FileManager.save(regraHorario2)
-                        .then(() => {
-                            FileManager.save(regraHorario3)
-                                .then(() => {
-                                    FileManager.getById(0)
-                                        .then(data => {
-                                            console.log('aaaaaaaaaaaaaaaaaaaaa');
-                                            console.log(data);
-                                            expect(data.id).to.equal(0);
-                                        })
-                                        .catch(err => {
-                                            console.log(err);
-                                        })
-                                });
-                        });
-                });
-        });
-    });
+    //         FileManager.save(regraHorario1)
+    //             .then(() => {
+    //                 FileManager.save(regraHorario2)
+    //                     .then(() => {
+    //                         FileManager.save(regraHorario3)
+    //                             .then(() => {
+    //                                 FileManager.getById(0)
+    //                                     .then(data => {
+    //                                         console.log('aaaaaaaaaaaaaaaaaaaaa');
+    //                                         console.log(data);
+    //                                         expect(data.id).to.equal(0);
+    //                                     })
+    //                                     .catch(err => {
+    //                                         console.log(err);
+    //                                     })
+    //                             });
+    //                     });
+    //             });
+    //     });
+    // });
 
     // describe('Método Get Regras de Horários', () => {
     //     it('Deve retornar uma lista com todas as Regras de Horários', () => {
