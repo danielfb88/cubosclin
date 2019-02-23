@@ -7,8 +7,8 @@ describe('Testes Unitários do File Manager', () => {
     beforeEach((done) => {
         FileManager.createFile()
             .then(() => {
-                FileManager.initJson();
-                done();
+                FileManager.initJson()
+                    .then(done());
             });
     });
 
@@ -66,13 +66,13 @@ describe('Testes Unitários do File Manager', () => {
 
             console.log('iniciando');
             FileManager.append(newObj1)
-                .then(obj => {
+                .then(() => {
                     console.log('ok 1');
                     FileManager.append(newObj2)
-                        .then(obj => {
+                        .then(() => {
                             console.log('ok 2');
                             FileManager.append(newObj3)
-                                .then(obj => {
+                                .then(() => {
                                     console.log('ok 3');
                                     FileManager.getAll()
                                         .then(data => {
@@ -80,46 +80,34 @@ describe('Testes Unitários do File Manager', () => {
                                             expect(data.table.length).to.equal(3);
                                             done();
                                         })
-                                        .catch(err => {
-                                            console.log(err);
-                                        });
                                 })
-                                .catch(err => {
-                                    console.log(err);
-                                });
                         })
-                        .catch(err => {
-                            console.log(err);
-                        });
-                })
-                .catch(err => {
-                    console.log(err);
                 });
 
         });
     });
 
-    // describe('Método save', () => {
-    //     it('Deve criar um objeto no arquivo', () => {
-    //         const newObj = {
-    //             id: 4,
-    //             date: null,
-    //             weekly: ['sat'],
-    //             daily: false,
-    //             intervals: [
-    //                 {
-    //                     start: "12:00",
-    //                     end: "14:00"
-    //                 }
-    //             ]
-    //         }
+    describe('Método save', () => {
+        it('Deve criar um objeto no arquivo', () => {
+            const newObj = {
+                id: 4,
+                date: null,
+                weekly: ['sat'],
+                daily: false,
+                intervals: [
+                    {
+                        start: "12:00",
+                        end: "14:00"
+                    }
+                ]
+            }
 
-    //         return FileManager.save(newObj)
-    //             .then(data => {
-    //                 expect(data.id).to.equal(newObj.id)
-    //             })
-    //     });
-    // });
+            return FileManager.append(newObj)
+                .then(data => {
+                    expect(data.id).to.equal(newObj.id)
+                })
+        });
+    });
 
     // describe('Método clean', () => {
     //     it('Deve limpar o arquivo', () => {

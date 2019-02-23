@@ -30,17 +30,8 @@ class FileManager {
                     console.log('dentro da promise: tudo ok aqui?');
                     console.log(filePath);
                     console.log(json_text);
-                    
-                    fs.writeFile(filePath, json_text, 'utf8', function (err) {
-                        console.log('dentro da funcao de callback: life is strange');
-                        if (err) {
-                            console.log('dentro da promise: probema');
-                            reject(err);
-                        } else {
-                            console.log('***json adicionado***');
-                            resolve(newObj);
-                        }
-                    });
+
+                    resolve(fs.writeFile(filePath, json_text, 'utf8', (err) => { console.log(err); }));
 
                 }
             });
@@ -146,7 +137,7 @@ class FileManager {
                         } else {
                             if (table.length == arr.length) {
                                 reject(`Id: ${id} Não encontrado`);
-                            } else{
+                            } else {
                                 console.log('***deletado por id***');
                                 resolve({ table });
                             }
