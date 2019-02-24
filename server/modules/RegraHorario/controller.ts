@@ -70,7 +70,9 @@ class RegraHorarioController {
                     { i: 5, day: 'fri' },
                     { i: 6, day: 'sat' }
                 ];
+                var arrAggreg: Array<any> = [];
                 var arrReturn: Array<any> = [];
+
                 var obj = {
                     day: null,
                     intervals: []
@@ -80,21 +82,17 @@ class RegraHorarioController {
                 var arrWeeksOfMonth = cal.monthDays(currentYear, currentMonth);
 
                 arrRegraHorarioStored.forEach(element => {
-                    console.log(element);
 
                     if (element.date != undefined && element.date != '') { // if date
-                        // var dateRegraHorario: Date = date.parse(element.date, 'DD-MM-YYYY');
-                        console.log('date ************************************');
 
                         obj = {
                             day: element.date,
                             intervals: element.intervals
                         };
-                        arrReturn.push(obj);
+                        arrAggreg.push(obj);
 
 
                     } else if (element.weekly.length > 0) { // if weekly
-                        console.log('weekly ************************************');
 
                         for (var i = 0; i < arrWeeksOfMonth.length; i++) {
                             for (var d = 0; d < element.weekly.length; d++) {
@@ -111,7 +109,7 @@ class RegraHorarioController {
                                                 day: `${dateDay}-${currentMonth + 1}-${currentYear}`,
                                                 intervals: element.intervals
                                             };
-                                            arrReturn.push(obj);
+                                            arrAggreg.push(obj);
                                         }
                                     }
                                 }
@@ -119,23 +117,50 @@ class RegraHorarioController {
                         }
 
                     } else if (element.daily) { // if daily
-                        console.log('daily ************************************');
                         for (var i = 0; i < arrWeeksOfMonth.length; i++) {
                             for (var j = 0; j < arrWeeksOfMonth[i].length; j++) {
 
                                 var dateDay = arrWeeksOfMonth[i][j];
 
-                                    if (dateDay != 0) {
-                                        obj = {
-                                            day: `${dateDay}-${currentMonth + 1}-${currentYear}`,
-                                            intervals: element.intervals
-                                        };
-                                        arrReturn.push(obj);
-                                    }
+                                if (dateDay != 0) {
+                                    obj = {
+                                        day: `${dateDay}-${currentMonth + 1}-${currentYear}`,
+                                        intervals: element.intervals
+                                    };
+                                    arrAggreg.push(obj);
+                                }
                             }
                         }
                     }
                 });
+
+                // verificando registro com os mesmos dias
+                var arrDays: Array<string> = [];
+                var arrDaysUnique: Array<string> = [];
+
+                for (var i = 0; i < arrAggreg.length; i++) {
+                    arrDays.push(arrAggreg[i].day);
+                }
+
+                arrDaysUnique = _.uniq(arrDays);
+
+                for (var i = 0; i < arrDaysUnique.length; i++) {
+                    var intervals: Array<any> = [];
+                    var objReturn: any = {};
+                    objReturn.day = arrDaysUnique[i];
+                    objReturn.intervals = [];
+
+                    for (var j = 0; j < arrAggreg.length; j++) {
+                        
+                        if (arrDaysUnique[i] == arrAggreg[j].day) {
+                            objReturn.intervals = objReturn.intervals.concat(arrAggreg[j].intervals);
+                        }
+
+                    }
+
+                    arrReturn.push(objReturn);
+                }
+
 
                 Handlers.onSuccess(res, arrReturn);
             })

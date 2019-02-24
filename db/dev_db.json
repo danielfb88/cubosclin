@@ -1,1 +1,1 @@
-{"table":[{"date":"","weekly":["fri"],"daily":false,"intervals":[{"start":"13:00","end":"14:30"}],"id":0},{"date":"","weekly":[],"daily":true,"intervals":[{"start":"20:00","end":"22:00"}],"id":1}]}
+{"table":[{"date":"","weekly":[],"daily":true,"intervals":[{"start":"20:00","end":"22:00"}],"id":0},{"date":"","weekly":["mon","fri"],"daily":false,"intervals":[{"start":"13:00","end":"14:30"}],"id":1}]}
