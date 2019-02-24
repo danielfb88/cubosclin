@@ -9,6 +9,10 @@ class RegraHorarioRoutes {
         return RegraHorarioController.getAll(req, res);
     }
 
+    getHorarios(req: Request, res: Response) {
+        return RegraHorarioController.getHorarios(req, res);
+    }
+
     getById(req: Request, res: Response) {
         return RegraHorarioController.getById(req, res);
     }
