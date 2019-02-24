@@ -54,7 +54,7 @@ class RegraHorarioController {
 
     getHorarios(req: Request, res: Response) {
         RegraHorario.getAll()
-            .then(arr => {
+            .then(arrRegraHorarioStored => {
 
                 var currentDate = new Date();
                 var currentDay = currentDate.getDate();
@@ -62,47 +62,53 @@ class RegraHorarioController {
                 var currentYear = currentDate.getFullYear();
 
                 var week = [
-                    { i: 0, day: 'mon' },
-                    { i: 1, day: 'tue' },
-                    { i: 2, day: 'wed' },
-                    { i: 3, day: 'thu' },
-                    { i: 4, day: 'fri' },
-                    { i: 5, day: 'sat' },
-                    { i: 6, day: 'sun' }
+                    { i: 0, day: 'sun' },
+                    { i: 1, day: 'mon' },
+                    { i: 2, day: 'tue' },
+                    { i: 3, day: 'wed' },
+                    { i: 4, day: 'thu' },
+                    { i: 5, day: 'fri' },
+                    { i: 6, day: 'sat' }
                 ];
                 var arrReturn: Array<any> = [];
                 var obj = {
-                    day: new Date(),
+                    day: null,
                     intervals: []
                 };
 
                 var cal = new c.Calendar();
-                var arrWeeks = cal.monthDays(currentYear, currentMonth);
+                var arrWeeksOfMonth = cal.monthDays(currentYear, currentMonth);
 
-                arr.forEach(element => {
-                    if (element.date != undefined || element.date != '') {
-                        var elementDate: Date = date.parse('02-01-2015', 'DD-MM-YYYY');
+                arrRegraHorarioStored.forEach(element => {
+                    console.log(element);
+
+                    if (element.date != undefined && element.date != '') { // if date
+                        // var dateRegraHorario: Date = date.parse(element.date, 'DD-MM-YYYY');
+                        console.log('date ************************************');
 
                         obj = {
-                            day: new Date(),
-                            intervals: []
+                            day: element.date,
+                            intervals: element.intervals
                         };
                         arrReturn.push(obj);
 
-                    } else if (element.weekly.length > 0) {
-                        for (var i = 0; i < arrWeeks.length; i++) {
+
+                    } else if (element.weekly.length > 0) { // if weekly
+                        console.log('weekly ************************************');
+
+                        for (var i = 0; i < arrWeeksOfMonth.length; i++) {
                             for (var d = 0; d < element.weekly.length; d++) {
-                                var day = element.weekly[d];
+                                var choosedDay = element.weekly[d];
 
                                 for (var w = 0; w < week.length; w++) {
-                                    if (day == week[w].day) {
-                                        var index = week[w].i;
+                                    if (choosedDay == week[w].day) {
+                                        var indexDay = week[w].i;
 
-                                        var dateDay = arrWeeks[i][index];
+                                        var dateDay = arrWeeksOfMonth[i][indexDay];
 
                                         if (dateDay != 0) {
                                             obj = {
-                                                day: date.parse(`${dateDay}-${currentMonth}-${currentYear}`, 'DD-MM-YYYY'),
+                                                day: `${dateDay}-${currentMonth + 1}-${currentYear}`,
                                                 intervals: element.intervals
                                             };
                                             arrReturn.push(obj);
@@ -112,21 +118,20 @@ class RegraHorarioController {
                             }
                         }
 
-                    } else if (element.daily) {
-                        for (var i = 0; i < arrWeeks.length; i++) {
-                            for (var d = 0; d < element.weekly.length; d++) {
+                    } else if (element.daily) { // if daily
+                        console.log('daily ************************************');
+                        for (var i = 0; i < arrWeeksOfMonth.length; i++) {
+                            for (var j = 0; j < arrWeeksOfMonth[i].length; j++) {
 
-                                for (var w = 0; w < week.length; w++) {
-                                    var dateDay = arrWeeks[i][index];
+                                var dateDay = arrWeeksOfMonth[i][j];
 
                                     if (dateDay != 0) {
                                         obj = {
-                                            day: date.parse(`${dateDay}-${currentMonth}-${currentYear}`, 'DD-MM-YYYY'),
+                                            day: `${dateDay}-${currentMonth + 1}-${currentYear}`,
                                             intervals: element.intervals
                                         };
                                         arrReturn.push(obj);
                                     }
-                                }
                             }
                         }
                     }
