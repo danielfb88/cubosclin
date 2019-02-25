@@ -64,149 +64,149 @@ describe('Testes de integração', () => {
         done();
     });
 
-    // describe('GET /api/regrahorario/all', () => {
-    //     it('Deve retornar um array com todos os objetos regraHorario', done => {
+    describe('GET /api/regrahorario/all', () => {
+        it('Deve retornar um array com todos os objetos regraHorario', done => {
 
-    //         FileManager.save(regraHorario1)
-    //             .then(() => {
-    //                 FileManager.save(regraHorario2)
-    //                     .then(() => {
-    //                         FileManager.save(regraHorario3)
-    //                             .then(() => {
+            FileManager.save(regraHorario1)
+                .then(() => {
+                    FileManager.save(regraHorario2)
+                        .then(() => {
+                            FileManager.save(regraHorario3)
+                                .then(() => {
 
-    //                                 request(app)
-    //                                     .get('/api/regrahorario/all')
-    //                                     .end((error, res) => {
-    //                                         expect(res.status).to.equal(HTTPStatus.OK);
-    //                                         expect(res.body.payload.length).to.equal(3);
-    //                                         done(error);
-    //                                     })
+                                    request(app)
+                                        .get('/api/regrahorario/all')
+                                        .end((error, res) => {
+                                            expect(res.status).to.equal(HTTPStatus.OK);
+                                            expect(res.body.payload.length).to.equal(3);
+                                            done(error);
+                                        })
 
-    //                             });
-    //                     });
-    //             });
+                                });
+                        });
+                });
 
-    //     });
-    // });
+        });
+    });
 
-    // describe('GET /api/regrahorario/:id', () => {
-    //     it('Deve retornar apenas o objeto solicitado', done => {
+    describe('GET /api/regrahorario/:id', () => {
+        it('Deve retornar apenas o objeto solicitado', done => {
 
-    //         FileManager.save(regraHorario1)
-    //             .then(() => {
-    //                 FileManager.save(regraHorario2)
-    //                     .then(() => {
-    //                         FileManager.save(regraHorario3)
-    //                             .then(() => {
+            FileManager.save(regraHorario1)
+                .then(() => {
+                    FileManager.save(regraHorario2)
+                        .then(() => {
+                            FileManager.save(regraHorario3)
+                                .then(() => {
 
-    //                                 request(app)
-    //                                     .get(`/api/regrahorario/${regraHorario1.id}`)
-    //                                     .end((error, res) => {
-    //                                         expect(res.status).to.equal(HTTPStatus.OK);
-    //                                         expect(res.body.payload.id).to.equal(regraHorario1.id);
-    //                                         done(error);
-    //                                     })
+                                    request(app)
+                                        .get(`/api/regrahorario/${regraHorario1.id}`)
+                                        .end((error, res) => {
+                                            expect(res.status).to.equal(HTTPStatus.OK);
+                                            expect(res.body.payload.id).to.equal(regraHorario1.id);
+                                            done(error);
+                                        })
 
-    //                             });
-    //                     });
-    //             });
+                                });
+                        });
+                });
 
-    //     });
-    // });
+        });
+    });
 
-    // describe('POST /api/regrahorario/create', () => {
-    //     it('Deve criar um objeto regraHorario', done => {
+    describe('POST /api/regrahorario/create', () => {
+        it('Deve criar um objeto regraHorario', done => {
 
-    //         const regraHorarioTeste = {
-    //             date: '',
-    //             weekly: [],
-    //             daily: true,
-    //             intervals: [
-    //                 {
-    //                     start: "23:00",
-    //                     end: "23:30"
-    //                 }
-    //             ]
-    //         }
+            const regraHorarioTeste = {
+                date: '',
+                weekly: [],
+                daily: true,
+                intervals: [
+                    {
+                        start: "23:00",
+                        end: "23:30"
+                    }
+                ]
+            }
 
-    //         request(app)
-    //             .post('/api/regrahorario/create')
-    //             .send(regraHorarioTeste)
-    //             .end((error, res) => {
-    //                 expect(res.status).to.equal(HTTPStatus.OK);
-    //                 expect(res.body.payload.id).to.eql(0);
-    //                 done(error);
-    //             })
+            request(app)
+                .post('/api/regrahorario/create')
+                .send(regraHorarioTeste)
+                .end((error, res) => {
+                    expect(res.status).to.equal(HTTPStatus.OK);
+                    expect(res.body.payload.id).to.eql(0);
+                    done(error);
+                })
 
-    //     });
-    // });
+        });
+    });
 
-    // describe('PUT /api/regrahorario/:id/update', () => {
-    //     it('Deve editar um objeto regraHorario', done => {
+    describe('PUT /api/regrahorario/:id/update', () => {
+        it('Deve editar um objeto regraHorario', done => {
 
-    //         const regraHorario1_updated = {
-    //             date: '08-02-1988',
-    //             weekly: [],
-    //             daily: true,
-    //             intervals: [
-    //                 {
-    //                     start: "10:40",
-    //                     end: "11:00"
-    //                 },
-    //                 {
-    //                     start: "11:20",
-    //                     end: "12:00"
-    //                 },
-    //             ]
-    //         };
+            const regraHorario1_updated = {
+                date: '08-02-1988',
+                weekly: [],
+                daily: true,
+                intervals: [
+                    {
+                        start: "10:40",
+                        end: "11:00"
+                    },
+                    {
+                        start: "11:20",
+                        end: "12:00"
+                    },
+                ]
+            };
 
 
-    //         FileManager.save(regraHorario1)
-    //             .then(() => {
-    //                 FileManager.save(regraHorario2)
-    //                     .then(() => {
-    //                         FileManager.save(regraHorario3)
-    //                             .then(() => {
+            FileManager.save(regraHorario1)
+                .then(() => {
+                    FileManager.save(regraHorario2)
+                        .then(() => {
+                            FileManager.save(regraHorario3)
+                                .then(() => {
 
-    //                                 request(app)
-    //                                     .put(`/api/regrahorario/${regraHorario1.id}/update`)
-    //                                     .send(regraHorario1_updated)
-    //                                     .end((error, res) => {
-    //                                         expect(res.status).to.equal(HTTPStatus.OK);
-    //                                         expect(res.body.payload.table[0].date).to.equal(regraHorario1_updated.date);
-    //                                         done(error);
-    //                                     })
+                                    request(app)
+                                        .put(`/api/regrahorario/${regraHorario1.id}/update`)
+                                        .send(regraHorario1_updated)
+                                        .end((error, res) => {
+                                            expect(res.status).to.equal(HTTPStatus.OK);
+                                            expect(res.body.payload.table[0].date).to.equal(regraHorario1_updated.date);
+                                            done(error);
+                                        })
 
-    //                             });
-    //                     });
-    //             });
+                                });
+                        });
+                });
 
-    //     });
-    // });
+        });
+    });
 
-    // describe('DELETE /api/regrahorario/:id/delete', () => {
-    //     it('Deve deletar um objeto regraHorario', done => {
+    describe('DELETE /api/regrahorario/:id/delete', () => {
+        it('Deve deletar um objeto regraHorario', done => {
 
-    //         FileManager.save(regraHorario1)
-    //             .then(() => {
-    //                 FileManager.save(regraHorario2)
-    //                     .then(() => {
-    //                         FileManager.save(regraHorario3)
-    //                             .then(() => {
+            FileManager.save(regraHorario1)
+                .then(() => {
+                    FileManager.save(regraHorario2)
+                        .then(() => {
+                            FileManager.save(regraHorario3)
+                                .then(() => {
 
-    //                                 request(app)
-    //                                     .delete(`/api/regrahorario/${regraHorario1.id}/delete`)
-    //                                     .end((error, res) => {
-    //                                         expect(res.status).to.equal(HTTPStatus.OK);
-    //                                         done(error);
-    //                                     })
+                                    request(app)
+                                        .delete(`/api/regrahorario/${regraHorario1.id}/delete`)
+                                        .end((error, res) => {
+                                            expect(res.status).to.equal(HTTPStatus.OK);
+                                            done(error);
+                                        })
 
-    //                             });
-    //                     });
-    //             });
+                                });
+                        });
+                });
 
-    //     });
-    // });
+        });
+    });
 
     describe('GET /api/horario/all', () => {
         it('Deve retornar um array com todos os Horarios', done => {
